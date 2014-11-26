@@ -151,12 +151,12 @@ public class Engine
 			String[] tAry = time.split("～");
 			
 			String timeS = formatedTime(tAry[0], "");
-			String timeE = (tAry.length > 1) ? tAry[1] : tAry[0];
+			String timeE = (tAry.length > 1) ? formatedTime(tAry[1], timeS) : timeS;
 
 			pw.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n", //
 					mAry_Subject.get(i), //
 					timeS, //
-					formatedTime(timeE, timeS), //
+					timeE, //
 					mAry_Description.get(i), //
 					mAry_Location.get(i));
 			

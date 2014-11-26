@@ -37,6 +37,32 @@ public class Engine
 	private static final Pattern sPatTime_3 = Pattern
 			.compile("(\\d+)");
 	
+	
+	/**
+	 * Location（主に市町村区名）にマッチするパターン
+	 */
+	private static final Pattern sPatPlace = Pattern.compile("●<\\/span>(.+?)<\\/p>",
+			Pattern.CASE_INSENSITIVE);
+
+	/**
+	 * Subjectにマッチするパターン
+	 */
+	private static final Pattern sPatName = Pattern.compile("<h\\d+><a .+?>(.+?)<",
+			Pattern.CASE_INSENSITIVE);
+	
+	/**
+	 * TimeStrにマッチするパターン
+	 */
+	private static final Pattern sPatTime = Pattern.compile("【開催日・期間】(.+?)<\\/span>",
+			Pattern.CASE_INSENSITIVE);
+	
+	/**
+	 * Description（主に開催場所）にマッチするパターン
+	 */
+	private static final Pattern sPatDescription = Pattern.compile("【開催場所】(.+?)<\\/span>",
+			Pattern.CASE_INSENSITIVE);
+	
+	
 	/**
 	 * 日付を出力する際に使う区切り文字列
 	 */
@@ -204,43 +230,27 @@ public class Engine
 		long lineCnt = 0;
 		try
 		{
-			//Location（主に市町村区名）にマッチするパターン
-			Pattern patPlace = Pattern.compile("●<\\/span>(.+?)<\\/p>",
-					Pattern.CASE_INSENSITIVE);
-
-			//Subjectにマッチするパターン
-			Pattern patName = Pattern.compile("<h\\d+><a .+?>(.+?)<",
-					Pattern.CASE_INSENSITIVE);
-			
-			//TimeStrにマッチするパターン
-			Pattern patTime = Pattern.compile("【開催日・期間】(.+?)<\\/span>",
-					Pattern.CASE_INSENSITIVE);
-			
-			//Description（主に開催場所）にマッチするパターン
-			Pattern patDescription = Pattern.compile("【開催場所】(.+?)<\\/span>",
-					Pattern.CASE_INSENSITIVE);
-
 			String line = null;
 			while ((line = br.readLine()) != null)
 			{
 				Matcher m;
 
-				if ((m = patPlace.matcher(line)).find())
+				if ((m = sPatPlace.matcher(line)).find())
 				{
 					mAry_Location.add(m.group(1));
 					System.out.println("Location:" + m.group(1));
 				}
-				else if ((m = patName.matcher(line)).find())
+				else if ((m = sPatName.matcher(line)).find())
 				{
 					mAry_Subject.add(m.group(1));
 					System.out.println("Subject:" + m.group(1));
 				}
-				else if ((m = patTime.matcher(line)).find())
+				else if ((m = sPatTime.matcher(line)).find())
 				{
 					mAry_TimeStr.add(m.group(1));
 					System.out.println("TimeStr:" + m.group(1));
 				}
-				else if ((m = patDescription.matcher(line)).find())
+				else if ((m = sPatDescription.matcher(line)).find())
 				{
 					mAry_Description.add(m.group(1));
 					System.out.println("Description:" + m.group(1) + "\n");
